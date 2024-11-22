@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use Routes instead of Switch
+import Sidebar from './components/Sidebar'; // Import Sidebar
+import Dashboard from './pages/Dashboard';
+import Tasks from './pages/Tasks';
+import Users from './pages/Users';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app">
+        <Sidebar /> {/* Sidebar in the layout */}
+        <div className="content">
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} /> {/* Use element prop for route */}
+            <Route path="/tasks" element={<Tasks />} /> {/* Use element prop for route */}
+            <Route path="/users" element={<Users />} /> {/* Use element prop for route */}
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

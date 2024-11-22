@@ -1,0 +1,71 @@
+/* General layout for the page */
+.tasks-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Styles for each task section */
+.task-column {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Column header styles */
+.task-column h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Task card styling */
+.task-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Task title and description */
+.task-card h3 {
+  font-size: 1rem;
+  color: #555;
+  margin: 0 0 0.5rem 0;
+}
+
+.task-card p {
+  font-size: 0.9rem;
+  color: #777;
+  margin: 0 0 0.5rem 0;
+}
+
+/* Button styling */
+.task-card button {
+  margin-right: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.task-card .edit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.task-card .delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.task-card button:hover {
+  opacity: 0.9;
+}

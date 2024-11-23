@@ -40,10 +40,10 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
       const { id } = req.params;
-      const { title, description, status } = req.body; // Ensure these fields match your model
+      const { title, description, status, dueDate } = req.body; // Ensure these fields match your model
       const updatedTask = await Task.findByIdAndUpdate(
           id,
-          { title, description, status },
+          { title, description, status, dueDate },
           { new: true, runValidators: true }
       );
       if (!updatedTask) {

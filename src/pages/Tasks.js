@@ -14,6 +14,7 @@ const TasksPage = () => {
     description: '',
     status: 'to-do',
     assignedTo: '',
+    dueDate: '',
   });
   const [users, setUsers] = useState([]);
   const [form] = Form.useForm();
@@ -124,7 +125,8 @@ const TasksPage = () => {
                       </Button>,
                     ]}
                   >
-                    <Tag>{task.status}</Tag> {task.title}
+                     <Tag>{task.status}</Tag> {task.title} <br />
+                     <small>Due: {new Date(task.dueDate).toLocaleDateString()}</small>
                   </List.Item>
                 )}
               />
@@ -160,6 +162,13 @@ const TasksPage = () => {
                 ))}
               </Select>
             </Form.Item>
+            <Form.Item
+  name="dueDate"
+  label="Due Date"
+  rules={[{ required: true, message: 'Please select a due date' }]}
+>
+  <Input type="date" />
+</Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>
                 Create Task

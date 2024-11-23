@@ -8,6 +8,7 @@ const Tasks = () => {
     description: '',
     status: 'in-progress',  // Default status
     assignedTo: '',  // We'll use a user ID here
+    dueDate: '',  // You can add more fields here
   });
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const deleteTask = async (taskId) => {
       description: '',
       status: 'in-progress',
       assignedTo: '',
+      dueDate: '',
     });  // Reset form
   };
 
@@ -86,17 +88,25 @@ const deleteTask = async (taskId) => {
           value={taskData.assignedTo}
           onChange={handleChange}
         />
+        <input
+    type="date"
+    name="dueDate"
+    value={taskData.dueDate || ''}
+    onChange={handleChange}
+    required
+  />
         <button type="submit">Create Task</button>
       </form>
 
       {/* List of tasks */}
       <ul>
-        {tasks.map((task) => (
-          <li key={task._id}>
-            {task.title} - {task.status}
-          </li>
-        ))}
-      </ul>
+  {tasks.map((task) => (
+    <li key={task._id}>
+      <strong>{task.title}</strong> - <em>{task.status}</em> - Due by: <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+    </li>
+  ))}
+</ul>
+
     </div>
   );
 };

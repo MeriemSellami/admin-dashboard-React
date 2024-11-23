@@ -8,7 +8,7 @@ import Tasks from './pages/Tasks';
 import Users from './pages/Users';
 import PrivateRoute from './components/PrivateRoute';
 import DashboardLayout from './components/DashboardLayout';
-
+import Agenda from './pages/Agenda';
 import './App.css';
 
 const App = () => {
@@ -46,7 +46,18 @@ const App = () => {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/agenda"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <Agenda />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/login" />} />
+        
       </Routes>
     </Router>
   );

@@ -67,6 +67,11 @@ const Sidebar = () => {
             icon: <UserOutlined />,
             label: <Link to="/users" style={{ color: '#fff' }}>Users</Link>,
           },
+          {
+            key: '4',
+            icon: <UserOutlined />,
+            label: <Link to="/agenda" style={{ color: '#fff' }}>Agenda</Link>,
+          }
         ]}
       />
 

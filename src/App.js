@@ -1,25 +1,53 @@
 // src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use Routes instead of Switch
-import Sidebar from './components/Sidebar'; // Import Sidebar
-import Dashboard from './pages/Dashboard';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Use Routes instead of Switch
+import Sidebar from './components/Sidebar';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard'; // Import Sidebar
 import Tasks from './pages/Tasks';
 import Users from './pages/Users';
+import PrivateRoute from './components/PrivateRoute';
+import DashboardLayout from './components/DashboardLayout';
+
 import './App.css';
 
 const App = () => {
   return (
     <Router>
-      <div className="app">
-        <Sidebar /> {/* Sidebar in the layout */}
-        <div className="content">
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} /> {/* Use element prop for route */}
-            <Route path="/tasks" element={<Tasks />} /> {/* Use element prop for route */}
-            <Route path="/users" element={<Users />} /> {/* Use element prop for route */}
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <Tasks />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <Users />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
     </Router>
   );
 };

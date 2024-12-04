@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const bcrypt = require("bcrypt");
 
 // GET: Fetch all users
 router.get('/', async (req, res) => {
@@ -30,10 +31,10 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
-    const { name, email, role, image } = req.body;
+    const { name, email, password, role, image } = req.body;
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, role, image },
+      { name, email, password, role, image },
       { new: true } // Return the updated user object
     );
     if (!updatedUser) {
@@ -45,23 +46,24 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// POST: Create a new user
+
 // POST: Create a new user
 router.post('/', async (req, res) => {
   try {
     console.log('Request body:', req.body); // Log the incoming data
 
-    const { name, email, role, image } = req.body;
+    const { name, email, password, role, image } = req.body;
 
     // Check for missing fields
-    if (!name || !email || !role) {
-      console.error('Missing required fields:', { name, email, role });
+    if (!name || !email || !role || !password) {
+      console.error('Missing required fields:', { name, email, role, password }); // Log the missing fields
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const newUser = new User({
       name,
       email,
+      password,
       role,
       image,
     });
@@ -73,6 +75,27 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.error('Error in POST /api/users:', error.message); // Log the error message
     res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+});
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: 'Invalid email or password.' });
+    }
+
+    // Send back user role and mock token
+    res.json({
+      role: user.role.toLowerCase(), // Normalize the role to lowercase
+      token: "mocked-jwt-token", // Replace with real JWT logic
+    });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal server error.' });
   }
 });
 

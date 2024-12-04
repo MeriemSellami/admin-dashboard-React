@@ -9,13 +9,19 @@ import Users from './pages/Users';
 import PrivateRoute from './components/PrivateRoute';
 import DashboardLayout from './components/DashboardLayout';
 import Agenda from './pages/Agenda';
+import ProjectManagerPage from './pages/ProjectManagerPage'; // Import the Project Manager Page
 import './App.css';
+import UserLogin from "./pages/UserLogin";
+import TeamMemberPage from "./pages/TeamMemberPage";
+import CaesarCipher from "./pages/CaesarCipher";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+         {/* User Login */}
+         <Route path="/user-login" element={<UserLogin />} />
         <Route
           path="/dashboard"
           element={
@@ -56,8 +62,37 @@ const App = () => {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/project-manager"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <ProjectManagerPage />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/team-member"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <TeamMemberPage />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cesar"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <CaesarCipher />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/login" />} />
-        
       </Routes>
     </Router>
   );

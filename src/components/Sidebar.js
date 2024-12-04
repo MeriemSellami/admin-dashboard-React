@@ -4,6 +4,7 @@ import {
   DashboardOutlined,
   UserOutlined,
   UnorderedListOutlined,
+  TeamOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -71,7 +72,7 @@ const Sidebar = () => {
             key: '4',
             icon: <UserOutlined />,
             label: <Link to="/agenda" style={{ color: '#fff' }}>Agenda</Link>,
-          }
+          },
         ]}
       />
 

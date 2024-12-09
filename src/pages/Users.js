@@ -3,14 +3,7 @@ import { getUsers, createUser, updateUser, deleteUser } from '../api/users'; // 
 import axios from 'axios';
 import { Card, Row, Col, Button, Modal, Form, Input, Select, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import CryptoJS from 'crypto-js';
 
-
-// Function to encrypt password
-const encryptPassword = (password) => {
-  const encryptedPassword = CryptoJS.AES.encrypt(password, 'your-secret-key').toString();
-  return encryptedPassword;
-};
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -41,34 +34,44 @@ const Users = () => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
     return regex.test(password);
   };
+  
   // Handle creating a new user
-  const handleCreateUser = async (e) => {
-    e.preventDefault();
-  
-    // Validate password
-    if (!isValidPassword(newUserData.password)) {
-      alert('Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, a number, and a special character.');
-      return;
-    }
-  
-    // Encrypt the password
-    const encryptedPassword = encryptPassword(newUserData.password);
-  
-    // Create user data with encrypted password
-    const userWithEncryptedPassword = { ...newUserData, password: encryptedPassword };
-  
-    try {
-      await createUser(userWithEncryptedPassword); // Send the encrypted password
-      const updatedUsers = await getUsers(); // Fetch the updated user list
-      setUsers(updatedUsers); // Update local state
-      setShowModal(false); // Close the modal
-      setNewUserData({ name: '', email: '', password: '', role: 'user', image: '' }); // Reset form
-      alert('User created successfully!');
-    } catch (error) {
-      console.error('Error creating user:', error.response?.data || error.message);
-      alert('Could not create the user.');
-    }
-  };
+    const handleCreateUser = async (e) => {
+      e.preventDefault();
+    
+      // Validate password
+      if (!isValidPassword(newUserData.password)) {
+        alert('Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, a number, and a special character.');
+        return;
+      }
+      const isValidEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      };
+      
+      if (!newUserData.name.trim()) {
+        alert('Name is required.');
+        return;
+      }
+      if (!isValidEmail(newUserData.email)) {
+        alert('Invalid email format.');
+        return;
+      }
+      
+    
+      try {
+        await createUser(newUserData); // Add user to the database
+        const updatedUsers = await getUsers(); // Fetch updated list
+        setUsers(updatedUsers); // Update state
+        setShowModal(false); // Close modal
+        setNewUserData({ name: '', email: '', password: '', role: 'user', image: '' }); // Reset form
+        alert('User created successfully!');
+      } catch (error) {
+        console.error('Error creating user:', error.response?.data || error.message);
+        alert('Could not create the user.');
+      }
+    };
+    
 
   // Handle opening the edit modal and setting the current user
   const handleEdit = (user) => {

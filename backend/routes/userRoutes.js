@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require("bcrypt");
 
+
 // GET: Fetch all users
 router.get('/', async (req, res) => {
   try {
@@ -59,11 +60,11 @@ router.post('/', async (req, res) => {
       console.error('Missing required fields:', { name, email, role, password }); // Log the missing fields
       return res.status(400).json({ message: 'Missing required fields' });
     }
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
       role,
       image,
     });
@@ -81,17 +82,23 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find user by email
+    // Find the user by email
     const user = await User.findOne({ email });
 
-    if (!user || user.password !== password) {
+    // Check if the user exists
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password.' });
+    }
+    // Compare the provided password with the hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
 
-    // Send back user role and mock token
+    // Return the user role upon successful login
     res.json({
       role: user.role.toLowerCase(), // Normalize the role to lowercase
-      token: "mocked-jwt-token", // Replace with real JWT logic
+      message: "Login successful",
     });
   } catch (error) {
     console.error('Error during login:', error);

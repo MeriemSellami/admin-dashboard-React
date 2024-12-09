@@ -32,7 +32,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState([]);
   const taskPieChartRef = useRef(null);
   const taskBarChartRef = useRef(null);
-  const userPieChartRef = useRef(null);
+
 
   // Fetch data from the backend
   useEffect(() => {
@@ -144,35 +144,11 @@ const Dashboard = () => {
       });
     }
 
-    if (userData.length > 0) {
-      destroyChart(userPieChartRef);
-      const userPieCtx = document.getElementById("userPieChart").getContext("2d");
-      userPieChartRef.current = new ChartJS(userPieCtx, {
-        type: "pie",
-        data: {
-          labels: ["Active", "Inactive"],
-          datasets: [
-            {
-              data: [userStatusCounts.active, userStatusCounts.inactive],
-              backgroundColor: ["#4caf50", "#f44336"],
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "top",
-            },
-          },
-        },
-      });
-    }
+    
 
     return () => {
       destroyChart(taskPieChartRef);
       destroyChart(taskBarChartRef);
-      destroyChart(userPieChartRef);
     };
   }, [taskData, userData]);
 
@@ -228,14 +204,7 @@ const Dashboard = () => {
             <canvas id="taskBarChart"></canvas>
           </Card>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Card sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              User Status Distribution (Pie)
-            </Typography>
-            <canvas id="userPieChart"></canvas>
-          </Card>
-        </Grid>
+        
       </Grid>
     </Box>
   );

@@ -10,27 +10,29 @@ const UserLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log('Logging in with credentials:', credentials);
       const response = await axios.post('http://localhost:5000/api/users/login', credentials);
-      const { role, token } = response.data;
+      console.log('Response:', response.data);
   
-      // Save the token to localStorage (if used for authentication)
-      localStorage.setItem('authToken', token);
+      const { role } = response.data;
   
       // Navigate based on the user role
       if (role === 'project manager') {
+        console.log('Navigating to /project-manager');
         navigate('/project-manager');
       } else if (role === 'team member') {
+        console.log('Navigating to /team-member');
         navigate('/team-member');
       } else {
         setError('Unauthorized role.');
       }
+      
     } catch (error) {
       console.error('Login failed:', error);
       setError('Invalid email or password.');
     }
   };
   
-
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       <form onSubmit={handleLogin} style={{ width: "300px", textAlign: "center" }}>

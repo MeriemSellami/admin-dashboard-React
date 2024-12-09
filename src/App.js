@@ -65,21 +65,21 @@ const App = () => {
         <Route
           path="/project-manager"
           element={
-            <PrivateRoute>
+            
               <DashboardLayout>
                 <ProjectManagerPage />
               </DashboardLayout>
-            </PrivateRoute>
+          
           }
         />
         <Route
           path="/team-member"
           element={
-            <PrivateRoute>
+            
               <DashboardLayout>
                 <TeamMemberPage />
               </DashboardLayout>
-            </PrivateRoute>
+            
           }
         />
         <Route

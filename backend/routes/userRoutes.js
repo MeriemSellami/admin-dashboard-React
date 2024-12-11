@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const bcrypt = require("bcrypt");
-
+const sendEmail = require('../mailer'); // Import the sendEmail function
 
 // GET: Fetch all users
 router.get('/', async (req, res) => {
@@ -33,9 +32,12 @@ router.put('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, email, password, role, image } = req.body;
+
+    // Update the user with the provided data
+    // No hashing here, the plain password will be stored
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, password, role, image },
+      { name, email, password, role, image }, // Store plain password
       { new: true } // Return the updated user object
     );
     if (!updatedUser) {
@@ -47,37 +49,57 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+const bcrypt = require('bcrypt'); // Import bcrypt
 
 // POST: Create a new user
 router.post('/', async (req, res) => {
   try {
-    console.log('Request body:', req.body); // Log the incoming data
-
     const { name, email, password, role, image } = req.body;
 
     // Check for missing fields
     if (!name || !email || !role || !password) {
-      console.error('Missing required fields:', { name, email, role, password }); // Log the missing fields
       return res.status(400).json({ message: 'Missing required fields' });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Send a welcome email with the plain password
+    const subject = 'Welcome to Our App!';
+    const text = `Hello ${name},\n\nWelcome to our app!\n\nHere are your account details:\nEmail: ${email}\nPassword: ${password}\n\nBest regards,\nYour App Team`;
+
+    try {
+      await sendEmail(email, subject, text);
+      console.log('Welcome email sent to:', email);
+    } catch (err) {
+      console.error('Error sending welcome email:', err);
+      return res.status(500).json({ message: 'Failed to send welcome email', error: err.message });
+    }
+
+    // Hash the password after sending the email
+    const saltRounds = 10; // Define the number of salt rounds
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create the user with the hashed password
     const newUser = new User({
       name,
       email,
-      password: hashedPassword,
+      password: hashedPassword, // Store the hashed password
       role,
       image,
     });
 
+    // Save the user to the database
     const savedUser = await newUser.save();
-    console.log('User created:', savedUser); // Log the successfully created user
 
-    res.status(201).json(savedUser);
+    res.status(201).json({
+      message: 'User created successfully and email sent',
+      user: { id: savedUser._id, name: savedUser.name, email: savedUser.email, role: savedUser.role },
+    });
   } catch (error) {
     console.error('Error in POST /api/users:', error.message); // Log the error message
     res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 });
+
+// POST: Login a user
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -105,5 +127,4 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 });
-
 module.exports = router;

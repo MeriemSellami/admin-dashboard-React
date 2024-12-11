@@ -1,21 +1,26 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const sendEmail = require('./mailer');
 
-dotenv.config();
 
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB Atlas!');
+
+    
+  })
+  .catch((err) => console.error('MongoDB connection error:', err));
+// Initialize Express App
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.options('*', cors()); // Handle preflight requests for all routes
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB Atlas!'))
-  .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
 const userRoutes = require('./routes/userRoutes');

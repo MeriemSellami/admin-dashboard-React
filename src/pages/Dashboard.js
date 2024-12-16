@@ -13,6 +13,7 @@ import {
   BarController,
 } from "chart.js";
 import { Card, Grid, Typography, Box } from "@mui/material";
+import Chatbot from "../components/chatbot";
 
 // Register Chart.js components
 ChartJS.register(
@@ -206,7 +207,11 @@ const Dashboard = () => {
         </Grid>
         
       </Grid>
+      <Chatbot />
+
     </Box>
+    
+
   );
 };
 

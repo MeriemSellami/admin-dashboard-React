@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Card, Button, Modal, Form, Input, Select, List, Tag, message } from 'antd';
 import axios from 'axios';
-import '../styles/TaskPage.css'; // Add any custom styles here if needed.
+import '../styles/TaskPage.css';
 
 const { Header, Content } = Layout;
 const { Option } = Select;

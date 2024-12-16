@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const sendEmail = require('../mailer'); // Import the sendEmail function
-
+const axios = require("axios");
 // GET: Fetch all users
 router.get('/', async (req, res) => {
   try {
@@ -101,16 +101,34 @@ router.post('/', async (req, res) => {
 
 // POST: Login a user
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, captcha } = req.body; // Capture captcha response from the frontend
 
+  // Verify reCAPTCHA response
+  const secretKey = "6Ld97pgqAAAAAGloTmJy-ebsub2rEifab1Dj9fle"; // Replace with your reCAPTCHA secret key
   try {
-    // Find the user by email
+    const captchaResponse = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      null,
+      {
+        params: {
+          secret: secretKey,
+          response: captcha, // Captcha response from the frontend
+        },
+      }
+    );
+
+    if (!captchaResponse.data.success) {
+      return res.status(400).json({ message: "reCAPTCHA verification failed." });
+    }
+
+    // Proceed with the login logic if CAPTCHA is valid
     const user = await User.findOne({ email });
 
     // Check if the user exists
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
+
     // Compare the provided password with the hashed password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {

@@ -6,7 +6,7 @@ const { Header, Sider, Content } = Layout;
 
 const DashboardLayout = ({ children }) => {
   const navigate = useNavigate();
-  const location = useLocation(); // Get current route
+  const location = useLocation(); 
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');

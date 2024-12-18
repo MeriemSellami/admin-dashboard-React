@@ -1,74 +1,227 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# **Admin Dashboard Project**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a full-featured Admin Dashboard built using **React** for the frontend, **Node.js** with **Express** for the backend, and **MongoDB** for the database. The dashboard allows an admin to manage users, tasks, and view analytics using interactive charts.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## **Features**
 
-### `npm start`
+### **1. Authentication**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Users login using email and password.
+- Role-based access control:
+  -   Admin: Access the full dashboard, manage users, and tasks.
+  -   Other Roles: Limited access to view only tasks assigned to them and change their status.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### **2. User Management**
 
-### `npm test`
+- Add new users with **name**, **email**, **role**, and **status** .
+- Delete existing users.
+- Update existing users.
+- View all users in a clean card layout.
+- Email Notification: When a new user is added, an email is sent with the generated password.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **3. Task Management**
 
-### `npm run build`
+- Create new tasks with details like **name**, **description**, **status**, and **due date**.
+- Track task progress:
+  - **Not Done**
+  - **In Progress**
+  - **Done**
+- Update & Delete tasks
+- Display tasks using charts for easy analysis.
+- Task Notification: When a task is assigned to a user, an email notification is sent to the specified user.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### **4. Interactive Dashboard**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- View analytics:
+  - Total tasks, tasks done, and tasks not done.
+  - Total users and their status (active/inactive).
+- Pie chart and bar chart to visualize task progress.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### **5. Chatbot Assistant**
 
-### `npm run eject`
+- Integrated chatbot that answers basic questions:
+  - How to create/delete a user or task.
+  - How to log out.
+  - Simple responses like "hello" or "bye".
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## **Technologies Used**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### **Frontend**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- React.js
+- Material UI (MUI)
+- Chart.js
+- Axios
 
-## Learn More
+### **Backend**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Node.js with Express.js
+- MongoDB Atlas (Cloud Database)
+- bcrypt (Password hashing)
+- Nodemailer (for sending emails)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **Other**
 
-### Code Splitting
+- reCAPTCHA for enhanced security.
+- Chatbot for user assistance.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## **Setup Instructions**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Follow these steps to set up the project on your local machine.
 
-### Making a Progressive Web App
+### **1. Clone the Repository**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+git clone https://github.com/MeriemSellami/admin-dashboard-React.git
+cd admin-dashboard-React
+```
 
-### Advanced Configuration
+### **2. Install Dependencies**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Install both frontend and backend dependencies.
 
-### Deployment
+#### **Frontend**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+cd src
+npm install
+```
 
-### `npm run build` fails to minify
+#### **Backend**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# admin-dashboard-React
->>>>>>> 348c10905becaa2f42f470c340a8315b737780b5
+```bash
+cd backend
+npm install
+```
+
+### **3. Start the Project**
+
+#### **Start the Backend**
+
+Run the backend server:
+
+```bash
+cd backend
+node server.js
+```
+
+The backend will run on `http://localhost:5000`.
+
+#### **Start the Frontend**
+
+Run the React app:
+
+```bash
+cd ..
+npm start
+```
+
+The frontend will run on `http://localhost:3000`.
+
+---
+
+## **How to Use the Project**
+
+1. **Login**:\
+   Use the admin email and password to log in.
+
+2. **Add Users**:\
+   Go to the **Users** page → Click **Add User** → Fill in the details.
+
+3. **Add Tasks**:\
+   Navigate to the **Tasks** page → Click **Add Task** → Enter the task details.
+
+4. **View Analytics**:\
+   Check the dashboard to view tasks and users in a summarized chart format.
+
+5. **Chatbot**:\
+   Ask the chatbot for assistance.
+
+   - Example:
+     - "How to create a user?"
+     - "How to delete a task?"
+     - "Hello"
+6. **Login**:\
+   Use the user email and password to log in.
+   
+8. **View Tasks**:\
+   View Tasks and change status.
+
+---
+
+## **API Endpoints**
+
+| Method | Endpoint         | Description         |
+| ------ | ---------------- | ------------------- |
+| GET    | `/api/users`     | Fetch all users     |
+| POST   | `/api/users`     | Add a new user      |
+| PUT    | `/api/users`     | Update user details |
+| DELETE | `/api/users/:id` | Delete a user by ID |
+| GET    | `/api/tasks`     | Fetch all tasks     |
+| POST   | `/api/tasks`     | Create a new task   |
+| PUT    | `/api/tasks/:id` | Update task details |
+| DELETE | `/api/tasks/:id` | Delete a task by ID |
+
+---
+
+## **Screenshots**
+
+### **Dashboard Overview**
+
+![image](https://github.com/user-attachments/assets/114dd105-c304-45a0-9afa-43053e4a221e)
+
+
+### **Chatbot Assistant**
+![image](https://github.com/user-attachments/assets/89376c75-838f-4d25-8cb3-2bf1bf12684d)
+
+
+
+---
+
+## **Project Structure**
+
+```
+admin-dashboard/
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── App.js
+│   ├── index.js
+├── package.json
+└── .env
+├── backend/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
+│   ├── package.json
+│   └── .env
+└── README.md
+```
+
+---
+
+## **Contributing**
+
+This project was created by  Meriem Sellami and Youssef Ben Romdhane Contributions are welcome! Please fork the repository, make your changes, and submit a pull request.
+
+---
+
+## **License**
+
+This project is licensed under the MIT License.\
+
+---
+
+## **Contact**
+
+If you have any questions or need further assistance, feel free to contact us:
+
+- **Meriem**: [sellamimeriem2003@gmail.com](mailto\:your.email@example.com)
+

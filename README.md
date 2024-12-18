@@ -180,6 +180,11 @@ The frontend will run on `http://localhost:3000`.
 ### **Chatbot Assistant**
 ![image](https://github.com/user-attachments/assets/89376c75-838f-4d25-8cb3-2bf1bf12684d)
 
+### **Users Page**
+![image](https://github.com/user-attachments/assets/7ee382c7-6cba-46b7-8e6c-1561330d1d96)
+
+### **Agenda Page**
+**![image](https://github.com/user-attachments/assets/3a016b67-abec-4b96-9202-37e803c984a4)
 
 
 ---

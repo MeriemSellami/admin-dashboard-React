@@ -37,8 +37,8 @@ const DashboardLayout = ({ children }) => {
             <Menu.Item key="4" onClick={() => navigate('/agenda')}>
               Agenda
             </Menu.Item>
-            <Menu.Item key="7" onClick={() => navigate('/cesar')}>
-              crypt
+            <Menu.Item key="5" onClick={() => navigate('/companies')}>
+              Companies  {/* Link to Companies.js */}
             </Menu.Item>
             <Menu.Item key="6" onClick={handleLogout}>
               Logout

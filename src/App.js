@@ -13,7 +13,7 @@ import ProjectManagerPage from './pages/ProjectManagerPage'; // Import the Proje
 import './App.css';
 import UserLogin from "./pages/UserLogin";
 import TeamMemberPage from "./pages/TeamMemberPage";
-import CaesarCipher from "./pages/CaesarCipher";
+import Companies from './pages/Companies';
 
 const App = () => {
   return (
@@ -82,12 +82,13 @@ const App = () => {
             
           }
         />
+        
         <Route
-          path="/cesar"
+          path="/companies"
           element={
             <PrivateRoute>
               <DashboardLayout>
-                <CaesarCipher />
+                <Companies />
               </DashboardLayout>
             </PrivateRoute>
           }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUsers, createUser, updateUser, deleteUser } from '../api/users'; // Ensure you have the correct API functions
+import { getUsers, createUser, updateUser, deleteUser } from '../api/users'; 
 import axios from 'axios';
 import { Card, Row, Col, Button, Modal, Form, Input, Select, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
@@ -7,13 +7,13 @@ import { UserOutlined } from '@ant-design/icons';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [showModal, setShowModal] = useState(false); // For adding a new user
+  const [showModal, setShowModal] = useState(false); 
   const [newUserData, setNewUserData] = useState({
     name: '',
     email: '',
     password:'',
-    role: 'user', // Default role
-    image: '', // Profile image URL
+    role: 'user',
+    image: '', 
   });
   const [showEditModal, setShowEditModal] = useState(false); // For editing a user
   const [currentUser, setCurrentUser] = useState(null); // To store the user being edited
@@ -60,11 +60,11 @@ const Users = () => {
       
     
       try {
-        await createUser(newUserData); // Add user to the database
-        const updatedUsers = await getUsers(); // Fetch updated list
-        setUsers(updatedUsers); // Update state
-        setShowModal(false); // Close modal
-        setNewUserData({ name: '', email: '', password: '', role: 'user', image: '' }); // Reset form
+        await createUser(newUserData); 
+        const updatedUsers = await getUsers(); 
+        setUsers(updatedUsers); 
+        setShowModal(false);
+        setNewUserData({ name: '', email: '', password: '', role: 'user', image: '' });
         alert('User created successfully!');
       } catch (error) {
         console.error('Error creating user:', error.response?.data || error.message);
@@ -222,7 +222,6 @@ const Users = () => {
                 onChange={(value) => setNewUserData({ ...newUserData, role: value })}
               >
                 <Select.Option value="project manager">Project Manager</Select.Option>
-                <Select.Option value="admin">Admin</Select.Option>
                 <Select.Option value="team member">Team Member</Select.Option>
                 <Select.Option value="viewer">Viewer</Select.Option>
               </Select>
@@ -272,7 +271,6 @@ const Users = () => {
               onChange={(value) => setCurrentUser({ ...currentUser, role: value })}
             >
               <Select.Option value="project manager">Project Manager</Select.Option>
-              <Select.Option value="admin">Admin</Select.Option>
               <Select.Option value="team member">Team Member</Select.Option>
               <Select.Option value="viewer">Viewer</Select.Option>
             </Select>

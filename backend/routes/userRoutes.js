@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const sendEmail = require('../mailer'); // Import the sendEmail function
+const sendEmail = require('../mailer'); //sendEmail function
 const axios = require("axios");
 // GET: Fetch all users
 router.get('/', async (req, res) => {
@@ -33,12 +33,10 @@ router.put('/:id', async (req, res) => {
     const userId = req.params.id;
     const { name, email, password, role, image } = req.body;
 
-    // Update the user with the provided data
-    // No hashing here, the plain password will be stored
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, password, role, image }, // Store plain password
-      { new: true } // Return the updated user object
+      { name, email, password, role, image }, 
+      { new: true } 
     );
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
@@ -49,7 +47,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-const bcrypt = require('bcrypt'); // Import bcrypt
+const bcrypt = require('bcrypt'); 
 
 // POST: Create a new user
 router.post('/', async (req, res) => {

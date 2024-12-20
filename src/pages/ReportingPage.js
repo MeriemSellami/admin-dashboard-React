@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Table, Spinner } from 'reactstrap';
+import { Card, Button, Table, Spin, Typography, Row, Col, Divider, Progress, Statistic } from 'antd';
 import { linearRegression, linearRegressionLine } from 'simple-statistics';
+
+const { Title, Text } = Typography;
 
 const ReportPage = () => {
   const [companyData, setCompanyData] = useState([]);
@@ -34,7 +36,6 @@ const ReportPage = () => {
   }, []);
 
   const applyPredictiveAnalysis = () => {
-    // Prepare data for regression
     const features = companyData.map(company => [
       company.employees || 0,
       company.tasksCompleted || 0,
@@ -44,7 +45,6 @@ const ReportPage = () => {
 
     try {
       if (features.length > 0 && revenueData.length > 0) {
-        // Perform regression only if revenue is positive
         const validData = features.map((feature, index) => ({
           feature: [feature[0]],
           revenue: revenueData[index],
@@ -57,7 +57,7 @@ const ReportPage = () => {
 
         const predictions = features.map(feature => {
           const prediction = predictRevenue(feature[0]);
-          return prediction < 0 ? 0 : prediction; // Ensure no negative revenue
+          return prediction < 0 ? 0 : prediction;
         });
 
         setAnalysisResults(predictions);
@@ -81,61 +81,89 @@ const ReportPage = () => {
   };
 
   return (
-    <div>
-      <h1>Report and Predictive Analysis</h1>
+    <div style={{ padding: '40px', background: 'linear-gradient(to right, #e3f2fd, #fce4ec)', minHeight: '100vh' }}>
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <Title level={1} style={{ color: '#1890ff' }}>✨ Majestic Report & Predictive Analysis ✨</Title>
+        <Text style={{ fontSize: '18px', color: '#555' }}>
+          Dive into the data galaxy with insights and predictions that light up your decision-making.
+        </Text>
+      </div>
       {loading ? (
-        <Spinner color="primary" />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+          <Spin size="large" />
+        </div>
       ) : (
         <>
-          <div>
-            <h3>Company Metrics</h3>
-            <p>Total Revenue: ${companyData.reduce((acc, curr) => acc + curr.revenue, 0).toFixed(2)}</p>
-            <p>Total Employees: {companyData.reduce((acc, curr) => acc + curr.employees, 0)}</p>
+          <Row gutter={[24, 24]}>
+            <Col span={8}>
+              <Card>
+                <Statistic title="Total Revenue" value={`$${companyData.reduce((acc, curr) => acc + curr.revenue, 0).toFixed(2)}`} />
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Statistic title="Total Employees" value={companyData.reduce((acc, curr) => acc + curr.employees, 0)} />
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Statistic title="Total Users" value={userData.length} />
+              </Card>
+            </Col>
+          </Row>
+
+          <Divider>Task Insights</Divider>
+
+          <Row gutter={[24, 24]}>
+            <Col span={8}>
+              <Card title="Total Tasks" bordered>
+                <Text strong>Total:</Text> {taskData.length}
+                <br />
+                <Text strong>Pending:</Text> {taskData.filter(task => task.status === 'to-do').length}
+                <br />
+                <Text strong>Completed:</Text> {taskData.filter(task => task.status === 'done').length}
+              </Card>
+            </Col>
+          </Row>
+
+          <div style={{ textAlign: 'center', margin: '40px 0' }}>
+            <Button type="primary" size="large" onClick={applyPredictiveAnalysis}>
+              Apply Predictive Analysis
+            </Button>
           </div>
-          <div>
-            <h3>Task Metrics</h3>
-            <p>Total Tasks: {taskData.length}</p>
-            <p>Pending Tasks: {taskData.filter(task => task.status === 'to-do').length}</p>
-            <p>In-progress Tasks: {taskData.filter(task => task.status === 'in-progress').length}</p>
-            <p>Completed Tasks: {taskData.filter(task => task.status === 'done').length}</p>
-          </div>
-          <div>
-            <h3>User Metrics</h3>
-            <p>Total Users: {userData.length}</p>
-          </div>
-          <div>
-            <h3>Apply Predictive Analysis</h3>
-            <Button color="primary" onClick={applyPredictiveAnalysis}>Apply Predictive Analysis</Button>
-          </div>
+
           {analysisResults.length > 0 && (
-            <div>
-              <h3>Predicted Revenue based on Employees, Tasks, and Company Age</h3>
-              <Table striped>
-                <thead>
-                  <tr>
-                    <th>Company Name</th>
-                    <th>Field</th>
-                    <th>Employees</th>
-                    <th>Actual Revenue</th>
-                    <th>Predicted Revenue</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {companyData.map((company, index) => (
-                    <tr key={index}>
-                      <td>{company.name}</td>
-                      <td>{company.field}</td>
-                      <td>{company.employees}</td>
-                      <td>{company.revenue}</td>
-                      <td>{analysisResults[index] ? analysisResults[index].toFixed(2) : 0}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </div>
+            <>
+              <Divider>Predictive Analysis Results</Divider>
+              <Table
+                dataSource={companyData.map((company, index) => ({
+                  key: index,
+                  name: company.name,
+                  revenue: company.revenue,
+                  predicted: analysisResults[index]?.toFixed(2) || 0,
+                }))}
+                columns={[
+                  { title: 'Company Name', dataIndex: 'name', key: 'name' },
+                  { title: 'Revenue', dataIndex: 'revenue', key: 'revenue' },
+                  {
+                    title: 'Predicted Revenue',
+                    dataIndex: 'predicted',
+                    key: 'predicted',
+                    render: (text, record) => (
+                      <Progress
+                        percent={Math.min((record.predicted / record.revenue) * 100, 100)}
+                        format={percent => `$${text} (${Math.round(percent)}%)`}
+                      />
+                    ),
+                  },
+                ]}
+                pagination={{ pageSize: 5 }}
+              />
+            </>
           )}
-          <div>
-            <Button color="success" onClick={downloadReport} disabled={downloading}>
+
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Button type="success" size="large" onClick={downloadReport} loading={downloading}>
               {downloading ? 'Generating Report...' : 'Download Report'}
             </Button>
           </div>

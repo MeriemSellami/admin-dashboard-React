@@ -99,27 +99,11 @@ router.post('/', async (req, res) => {
 
 // POST: Login a user
 router.post('/login', async (req, res) => {
-  const { email, password, captcha } = req.body; // Capture captcha response from the frontend
+  const { email, password } = req.body; 
 
-  // Verify reCAPTCHA response
-  const secretKey = "6Ld97pgqAAAAAGloTmJy-ebsub2rEifab1Dj9fle"; // Replace with your reCAPTCHA secret key
+
   try {
-    const captchaResponse = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify`,
-      null,
-      {
-        params: {
-          secret: secretKey,
-          response: captcha, // Captcha response from the frontend
-        },
-      }
-    );
-
-    if (!captchaResponse.data.success) {
-      return res.status(400).json({ message: "reCAPTCHA verification failed." });
-    }
-
-    // Proceed with the login logic if CAPTCHA is valid
+    
     const user = await User.findOne({ email });
 
     // Check if the user exists

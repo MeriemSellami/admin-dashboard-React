@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
+
 import { Form, Input, Button, Typography, Alert, Space, Card } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
@@ -9,23 +9,18 @@ const { Title, Text } = Typography;
 
 const UserLogin = () => {
   const [error, setError] = useState("");
-  const [captchaValue, setCaptchaValue] = useState(null);
+  
   const navigate = useNavigate();
 
-  const handleCaptchaChange = (value) => {
-    setCaptchaValue(value);
-  };
+  
 
   const handleLogin = async (values) => {
-    if (!captchaValue) {
-      setError("Please complete the CAPTCHA.");
-      return;
-    }
+   
 
     try {
       const response = await axios.post("http://localhost:5000/api/users/login", {
-        ...values,
-        captcha: captchaValue,
+        ...values
+       
       });
 
       const { role } = response.data;
@@ -117,12 +112,7 @@ const UserLogin = () => {
             />
           </Form.Item>
 
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <ReCAPTCHA
-              sitekey="6Ld97pgqAAAAAClaCyScyQcJ8W7sr8e0jjacgsR4"
-              onChange={handleCaptchaChange}
-            />
-          </Space>
+          
 
           <Form.Item style={{ marginTop: "24px" }}>
             <Button

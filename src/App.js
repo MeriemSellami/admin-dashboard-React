@@ -14,6 +14,7 @@ import './App.css';
 import UserLogin from "./pages/UserLogin";
 import TeamMemberPage from "./pages/TeamMemberPage";
 import Companies from './pages/Companies';
+import ReportPage from './pages/ReportingPage';
 
 const App = () => {
   return (
@@ -89,6 +90,17 @@ const App = () => {
             <PrivateRoute>
               <DashboardLayout>
                 <Companies />
+              </DashboardLayout>
+            </PrivateRoute>
+          }
+        />
+        {/* Reporting Page Route */}
+        <Route
+          path="/report"
+          element={
+            <PrivateRoute>
+              <DashboardLayout>
+                <ReportPage />
               </DashboardLayout>
             </PrivateRoute>
           }

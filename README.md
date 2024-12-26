@@ -1,74 +1,175 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Admin Dashboard Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This project is an **Admin Dashboard** built using **React** for the frontend and **Node.js** with **MongoDB Atlas** for the backend. The application enables effective management of users, tasks, and role-based interfaces, focusing on simplicity, functionality, and accessibility.
 
-## Available Scripts
+The project was developed collaboratively by **[Your Name]** and **Yusuf**.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
+- **Authentication & Authorization**: Admin and user login, with admin-only functionalities like creating users and tasks.
+- **Role-Based Access**:
+  - Admin: Full access to manage users and tasks.
+  - Project Manager: Access to project-related tasks.
+  - Team Member: Access to individual tasks.
+- **Task Management**:
+  - View tasks by status (To-do, In-progress, Done).
+  - Add, edit, and delete tasks.
+- **User Management**:
+  - Add users with roles, emails, and profile images.
+  - Assign tasks to users.
+- **Chatbot Assistance**:
+  - Answers questions about managing users and tasks.
+  - Responds to simple queries like "Hello" or "Logout".
+- **Charts & Analytics**:
+  - Pie chart and bar chart visualization of task statuses.
+  - Summary cards for total users and task statuses.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+### Frontend
+- **React**: For building the user interface.
+- **Material-UI**: For responsive and modern UI components.
+- **Axios**: For API requests.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend
+- **Node.js**: Server-side framework.
+- **Express.js**: Web framework for routing.
+- **MongoDB Atlas**: Cloud database for storing user and task data.
+- **bcrypt**: For password hashing.
 
-### `npm run build`
+### Other Libraries/Tools
+- **Chart.js**: For rendering charts.
+- **ReCAPTCHA**: For enhanced security.
+- **dotenv**: For environment variable management.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Setup Instructions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites
+1. **Node.js** and **npm** installed.
+2. **MongoDB Atlas** account set up.
+3. **Google ReCAPTCHA** keys (for securing login forms).
 
-### `npm run eject`
+### Backend Setup
+1. Clone the repository.
+2. Navigate to the `backend` folder:
+   ```bash
+   cd backend
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Create a `.env` file in the `backend` folder and configure:
+   ```env
+   PORT=5000
+   MONGO_URI=<your-mongodb-atlas-connection-string>
+   RECAPTCHA_SECRET_KEY=<your-recaptcha-secret-key>
+   ```
+5. Start the server:
+   ```bash
+   node server.js
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend Setup
+1. Navigate to the `frontend` folder:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure ReCAPTCHA keys in `src/config.js`:
+   ```javascript
+   export const RECAPTCHA_SITE_KEY = '<your-recaptcha-site-key>';
+   ```
+4. Start the development server:
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Folder Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+project-root/
+├── backend/
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   │   ├── taskRoutes.js
+|   |   ├── companies.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Task.js
+│   │   ├── Companies.js
+│   ├── server.js
+│   ├── Mailer.js
+│   └── .env
 
-## Learn More
+├── src/
+│   ├── components/
+│   ├── Pages/
+│   ├── App.js
+├── public/
+└── .env
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Usage
+1. Launch the backend server using `node server.js`.
+2. Launch the frontend using `npm start`.
+3. Open the application in your browser at `http://localhost:3000/`.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Sample Chatbot Interactions
+- **"How do I create a user?"**: "To create a user, go to the 'Users' page, click 'Add User', and fill in the required details."
+- **"How do I create a task?"**: "To create a task, navigate to the 'Tasks' page, click 'Add Task', and provide details such as name, description, and due date."
+- **"Hello"**: "Hello! How can I assist you today?"
+- **"Logout"**: "To log out, click the 'Logout' button in the top-right corner."
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## **API Endpoints**
 
-### Making a Progressive Web App
+| Method | Endpoint             | Description         |
+| ------ | -------------------- | ------------------- |
+| GET    | `/api/users`         | Fetch all users     |
+| POST   | `/api/users`         | Add a new user      |
+| DELETE | `/api/users/:id`     | Delete a user by ID |
+| GET    | `/api/companies`     | Fetch all companies |
+| POST   | `/api/companies`     | Add a new companies |
+| DELETE | `/api/companies/:id` | Delete a companiesby ID |
+| GET    | `/api/tasks`         | Fetch all tasks     |
+| POST   | `/api/tasks`         | Create a new task   |
+| PUT    | `/api/tasks/:id`     | Update task details |
+| DELETE | `/api/tasks/:id`     | Delete a task by ID |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## **Screenshots**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### **Dashboard Overview**
+![Capture d'écran 2024-12-22 123905](https://github.com/user-attachments/assets/6d76438c-71de-4f7c-9e6c-5efb34236aa2)
 
-### Deployment
+### **Chatbot Assistant**
+![Capture d'écran 2024-12-18 155045](https://github.com/user-attachments/assets/2ed3d939-6761-4fc4-8fec-c965b9929245)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### **Users Page**
+![Capture d'écran 2024-12-18 161341](https://github.com/user-attachments/assets/c3b94939-1c3d-4f18-861c-bfd142d8ebb0)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# admin-dashboard-React
->>>>>>> 348c10905becaa2f42f470c340a8315b737780b5
+
+---
+
+## License
+This project is licensed under the MIT License.
+
